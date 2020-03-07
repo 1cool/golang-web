@@ -2,21 +2,20 @@ package response
 
 import (
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 type Gin struct {
 	C *gin.Context
 }
 
-type response struct {
+type Response struct {
 	Success bool        `json:"success"`
 	Message string      `json:"message"`
 	Data    interface{} `json:"data"`
 }
 
-func (g *Gin) Response(success bool, message string, data interface{}) {
-	g.C.JSON(http.StatusOK, response{
+func (g *Gin) Response(httpStatus int, success bool, message string, data interface{}) {
+	g.C.JSON(httpStatus, Response{
 		Success: success,
 		Message: message,
 		Data:    data,

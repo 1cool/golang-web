@@ -6,6 +6,7 @@ import (
 	"golang-web/app/rule"
 	"golang-web/app/util/response"
 	"gopkg.in/go-playground/validator.v9"
+	"net/http"
 	"strconv"
 )
 
@@ -14,7 +15,7 @@ func Index(c *gin.Context) {
 	appG := response.Gin{C: c}
 	user := model.User{}
 	users := user.List()
-	appG.Response(true, "", &users)
+	appG.Response(http.StatusOK, true, "", &users)
 }
 
 // 查看user详情
@@ -26,12 +27,12 @@ func Show(c *gin.Context) {
 	intId, _ := strconv.Atoi(c.Param("id"))
 	for _, user := range users {
 		if user.Id == intId {
-			appG.Response(true, "", &user)
+			appG.Response(http.StatusOK, true, "", &user)
 			return
 		}
 	}
 
-	appG.Response(true, "暂无数据", make([]string, 0))
+	appG.Response(http.StatusOK, true, "暂无数据", make([]string, 0))
 }
 
 // 添加 user
@@ -51,7 +52,7 @@ func Store(c *gin.Context) {
 	_ = c.ShouldBindJSON(&newUser)
 
 	if err := validate.Struct(&newUser); err != nil {
-		appG.Response(false, err.Error(), nil)
+		appG.Response(http.StatusUnprocessableEntity, false, err.Error(), nil)
 		return
 	}
 
@@ -63,7 +64,7 @@ func Store(c *gin.Context) {
 	newUser.Gender = gender
 
 	users = append(users, newUser)
-	appG.Response(true, "", &users)
+	appG.Response(http.StatusOK, true, "", &users)
 }
 
 // 删除 user
@@ -80,5 +81,5 @@ func Destroy(c *gin.Context) {
 		}
 	}
 
-	appG.Response(true, "", &users)
+	appG.Response(http.StatusOK, true, "", &users)
 }
