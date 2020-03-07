@@ -22,20 +22,20 @@ func InitRouter() *gin.Engine {
 	//r.GET("/benchmark", MyBenchLogger(), benchEndpoint)
 
 	// 认证路由组
-	v1 := r.Group("api/v1")
+	apiV1 := r.Group("api/v1")
 
 	// AuthRequired() 中间件
-	v1.Use(middleware.AuthRequired())
+	apiV1.Use(middleware.AuthRequired())
 	{
 		//authorized.POST("/login", loginEndpoint)
 		//authorized.POST("/submit", submitEndpoint)
 		//authorized.POST("/read", readEndpoint)
 
 		// 嵌套路由组
-		v1.GET("/users", version1.Index)
-		v1.GET("/users/:id", version1.Show)
-		v1.POST("/users", version1.Store)
-		v1.DELETE("/users/:id", version1.Destroy)
+		apiV1.GET("/users", version1.Index)
+		apiV1.GET("/users/:id", version1.Show)
+		apiV1.POST("/users", version1.Store)
+		apiV1.DELETE("/users/:id", version1.Destroy)
 	}
 
 	return r
