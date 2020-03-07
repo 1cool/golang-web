@@ -9,6 +9,7 @@ import (
 	"strconv"
 )
 
+// user 列表
 func Index(c *gin.Context) {
 	appG := response.Gin{C: c}
 	user := model.User{}
@@ -16,6 +17,7 @@ func Index(c *gin.Context) {
 	appG.Response(true, "", &users)
 }
 
+// 查看user详情
 func Show(c *gin.Context) {
 	appG := response.Gin{C: c}
 	user := model.User{}
@@ -32,6 +34,7 @@ func Show(c *gin.Context) {
 	appG.Response(true, "暂无数据", make([]string, 0))
 }
 
+// 添加 user
 func Store(c *gin.Context) {
 	appG := response.Gin{C: c}
 	user := model.User{}
@@ -63,6 +66,7 @@ func Store(c *gin.Context) {
 	appG.Response(true, "", &users)
 }
 
+// 删除 user
 func Destroy(c *gin.Context) {
 	appG := response.Gin{C: c}
 	user := model.User{}
