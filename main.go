@@ -1,13 +1,13 @@
 package main
 
 import (
-	"golang-web/routes"
+	"golang-web/route"
 )
 
 func main() {
 	//r := gin.Default()
 
-	r := routes.InitRouter()
+	r := route.InitRouter()
 	//r.GET("/ping", func(c *gin.Context) {
 	//	data := map[string]interface{}{
 	//		"lang": "GO语言",

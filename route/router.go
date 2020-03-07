@@ -1,9 +1,9 @@
-package routes
+package route
 
 import (
 	"github.com/gin-gonic/gin"
-	"golang-web/middlewares"
-	"net/http"
+	"golang-web/app/controller/version1"
+	"golang-web/route/middleware"
 )
 
 func InitRouter() *gin.Engine {
@@ -22,24 +22,20 @@ func InitRouter() *gin.Engine {
 	//r.GET("/benchmark", MyBenchLogger(), benchEndpoint)
 
 	// 认证路由组
-	authorized := r.Group("/", middlewares.AuthRequired())
+	v1 := r.Group("api/v1")
 
 	// AuthRequired() 中间件
-	authorized.Use(middlewares.AuthRequired())
+	v1.Use(middleware.AuthRequired())
 	{
 		//authorized.POST("/login", loginEndpoint)
 		//authorized.POST("/submit", submitEndpoint)
 		//authorized.POST("/read", readEndpoint)
 
 		// 嵌套路由组
-		testing := authorized.Group("testing")
-		testing.GET("/test", func(c *gin.Context) {
-			data := map[string]interface{}{
-				"lang": "GO语言",
-				"tag":  "<br>",
-			}
-			c.JSON(http.StatusOK, data)
-		})
+		v1.GET("/users", version1.Index)
+		v1.GET("/users/:id", version1.Show)
+		v1.POST("/users", version1.Store)
+		v1.DELETE("/users/:id", version1.Destroy)
 	}
 
 	return r
