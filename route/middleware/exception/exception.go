@@ -47,5 +47,7 @@ func SetUp() gin.HandlerFunc {
 				appG.Response(500, false, DebugStack, nil)
 			}
 		}()
+
+		c.Next()
 	}
 }
