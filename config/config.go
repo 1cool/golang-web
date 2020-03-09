@@ -8,10 +8,11 @@ import (
 )
 
 type App struct {
-	AppName   string
-	JwtSecret string
-	PageSize  int
-	PrefixUrl string
+	AppName      string
+	AppAesSecret string
+	JwtSecret    string
+	PageSize     int
+	PrefixUrl    string
 
 	RuntimeRootPath string
 
@@ -41,6 +42,7 @@ type Server struct {
 	HttpPort     int
 	ReadTimeout  time.Duration
 	WriteTimeout time.Duration
+	TsGap        int64 // 接口时效性 3000ms
 }
 
 var ServerSetting = &Server{}

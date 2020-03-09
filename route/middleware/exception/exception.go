@@ -44,7 +44,7 @@ func SetUp() gin.HandlerFunc {
 				mail.Send(mailOption)
 
 				appG := response.Gin{C: c}
-				appG.Response(500, false, DebugStack, nil)
+				appG.Response(500, false, DebugStack, []string{})
 			}
 		}()
 
