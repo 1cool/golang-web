@@ -8,6 +8,7 @@ import (
 )
 
 type App struct {
+	AppName   string
 	JwtSecret string
 	PageSize  int
 	PrefixUrl string

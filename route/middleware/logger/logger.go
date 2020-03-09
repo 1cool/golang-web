@@ -24,6 +24,7 @@ func (w bodyLogWriter) Write(b []byte) (int, error) {
 	w.body.Write(b)
 	return w.ResponseWriter.Write(b)
 }
+
 func (w bodyLogWriter) WriteString(s string) (int, error) {
 	w.body.WriteString(s)
 	return w.ResponseWriter.WriteString(s)
@@ -83,7 +84,7 @@ func SetUp() gin.HandlerFunc {
 		accessLogMap["response_data"] = responseData
 
 		accessLogMap["cost_time"] = fmt.Sprintf("%vms", endTime-startTime)
-		accessLogMap["request_time_format"] = time.FormatUnixNanoTime(startTime, "2006/01/02 15:04:05")
+		accessLogMap["request_time_format"] = time.FormatUnixNanoTime(startTime, "2006-01-02 15:04:05")
 
 		accessLogJson, _ := jsonUtil.Encode(accessLogMap)
 		accessChannel <- accessLogJson
@@ -91,8 +92,6 @@ func SetUp() gin.HandlerFunc {
 }
 
 func handleAccessChannel() {
-	fmt.Println(config.AppSetting.LogSavePath + config.AppSetting.AppAccessLogName)
-
 	if f, err := os.OpenFile(config.AppSetting.LogSavePath+config.AppSetting.AppAccessLogName, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666); err != nil {
 		log.Println(err)
 	} else {
