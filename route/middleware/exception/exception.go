@@ -3,6 +3,7 @@ package exception
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/kelseyhightower/envconfig"
 	"golang-web/app/util/mail"
 	"golang-web/app/util/response"
 	"golang-web/app/util/time"
@@ -22,7 +23,9 @@ func SetUp() gin.HandlerFunc {
 					DebugStack += v + "<br>"
 				}
 
-				subject := fmt.Sprintf("【重要错误】%s 项目出错了！", config.AppSetting.AppName)
+				var AppConfig config.App
+				_ = envconfig.Process("myapp", &AppConfig)
+				subject := fmt.Sprintf("【重要错误】%s 项目出错了！", AppConfig.AppName)
 
 				body := strings.ReplaceAll(MailTemplate, "{ErrorMsg}", fmt.Sprintf("%s", err))
 				body = strings.ReplaceAll(body, "{RequestTime}", time.GetCurrentTimeByFormat("2006-01-02 15:04:05"))

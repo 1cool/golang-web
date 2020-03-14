@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/kelseyhightower/envconfig"
 	"golang-web/app/util/response"
 	"golang-web/config"
 	"log"
@@ -14,7 +15,11 @@ func AuthRequired() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		t := time.Now()
 
-		tsGap := config.ServerSetting.TsGap
+		var AppConfig config.App
+
+		_ = envconfig.Process("myapp", &AppConfig)
+
+		tsGap := AppConfig.TsGap
 
 		tsInt, _ := strconv.ParseInt(c.GetHeader("ts"), 10, 64)
 

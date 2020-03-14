@@ -8,6 +8,7 @@ import (
 )
 
 func InitRouter() *gin.Engine {
+	gin.SetMode(gin.DebugMode)
 	// 新建一个没有任何默认中间件的路由
 	r := gin.New()
 

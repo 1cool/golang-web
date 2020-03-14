@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"github.com/kelseyhightower/envconfig"
 	"log"
 	"time"
@@ -43,11 +44,16 @@ type App struct {
 	IdleTimeout time.Duration
 }
 
-var AppConfig = &App{}
-
 // Setup initialize the configuration instance
 func Setup() {
+	var AppConfig App
 	err := envconfig.Process("myapp", &AppConfig)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	format := "Debug: %s\nPort: %s\nUser: %s\nRate: %s\n"
+	_, err = fmt.Printf(format, AppConfig.DbDatabase, AppConfig.DbHost, AppConfig.DbUsername, AppConfig.DbConnection)
 	if err != nil {
 		log.Fatal(err.Error())
 	}

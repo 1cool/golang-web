@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/kelseyhightower/envconfig"
 	jsonUtil "github.com/xinliangnote/go-util/json"
 	utilResponse "golang-web/app/util/response"
 	"golang-web/app/util/time"
@@ -92,7 +93,9 @@ func SetUp() gin.HandlerFunc {
 }
 
 func handleAccessChannel() {
-	if f, err := os.OpenFile(config.AppConfig.LogSavePath+config.AppConfig.AppAccessLogName, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666); err != nil {
+	var AppConfig config.App
+	_ = envconfig.Process("myapp", &AppConfig)
+	if f, err := os.OpenFile(AppConfig.LogSavePath+AppConfig.AppAccessLogName, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666); err != nil {
 		log.Println(err)
 	} else {
 		for accessLog := range accessChannel {
