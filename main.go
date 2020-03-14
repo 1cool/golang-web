@@ -1,6 +1,7 @@
 package main
 
 import (
+	"golang-web/app/model"
 	"golang-web/config"
 	"golang-web/route"
 	"golang-web/route/middleware/exception"
@@ -9,6 +10,7 @@ import (
 func init() {
 	config.Setup()
 	exception.SetUp()
+	model.SetUp()
 }
 
 func main() {

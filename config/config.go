@@ -25,6 +25,7 @@ type App struct {
 	DbDatabase   string
 	DbUsername   string
 	DbPassword   string
+	DbCharset    string
 	TablePrefix  string
 
 	// Server
