@@ -1,17 +1,14 @@
 package model
 
-type User struct {
-	Id     int    `json:"id"`
-	Name   string `json:"name" validate:"required,NameValid"`
-	Phone  string `json:"phone"`
-	Gender int    `json:"gender"`
-}
+import (
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/jinzhu/gorm"
+)
 
-func (u *User) List() []User {
-	return []User{
-		{Id: 1, Name: "小梦", Phone: "13512348526", Gender: 1},
-		{Id: 2, Name: "金沙江看", Phone: "13512348526", Gender: 1},
-		{Id: 3, Name: "萨达萨达", Phone: "13512348526", Gender: 1},
-		{Id: 4, Name: "撒打算", Phone: "13512348526", Gender: 1},
-	}
+type User struct {
+	gorm.Model
+	Email    string `gorm:"type:varchar(100);unique_index" json:"email" validate:"required,email"`
+	NickName string `gorm:"size:20" json:"nick_name"`
+	Avatar   string `gorm:"size:255" json:"avatar"`
+	Point    int64  `gorm:"size:255;default:0" json:"point"`
 }

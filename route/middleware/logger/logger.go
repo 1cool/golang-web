@@ -92,7 +92,7 @@ func SetUp() gin.HandlerFunc {
 }
 
 func handleAccessChannel() {
-	if f, err := os.OpenFile(config.AppSetting.LogSavePath+config.AppSetting.AppAccessLogName, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666); err != nil {
+	if f, err := os.OpenFile(config.AppConfig.LogSavePath+config.AppConfig.AppAccessLogName, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0666); err != nil {
 		log.Println(err)
 	} else {
 		for accessLog := range accessChannel {
