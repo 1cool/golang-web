@@ -3,7 +3,7 @@ package v1
 import (
 	"github.com/gin-gonic/gin"
 	"golang-web/app/model"
-	"golang-web/app/rule"
+	"golang-web/app/rule/user"
 	"golang-web/app/util/response"
 	"gopkg.in/go-playground/validator.v9"
 	"net/http"
@@ -33,21 +33,14 @@ func Show(c *gin.Context) {
 	appG.Response(http.StatusOK, true, "暂无数据", make([]string, 0))
 }
 
-// 添加 user
-// @title Swagger Example API
-// @version 1.0
-// @description This is a sample server Petstore server.
-// @termsOfService http://swagger.io/terms/
-
-// @contact.name API Support
-// @contact.url http://www.swagger.io/support
-// @contact.email support@swagger.io
-
-// @license.name Apache 2.0
-// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
-
-// @host petstore.swagger.io
-// @BasePath /v1
+// @Tags 用户相关
+// @Summary 用户注册
+// @Produce  json
+// @Accept  json
+// @Param user body model.UserRegister true "用户注册"
+// @Success 200 {object} response.Response
+// @Failure 500 {object} response.Response
+// @Router /api/v1/users [post]
 func Store(c *gin.Context) {
 	appG := response.Gin{C: c}
 
@@ -55,9 +48,9 @@ func Store(c *gin.Context) {
 	validate := validator.New()
 
 	// 注册自定义验证
-	_ = validate.RegisterValidation("NameValid", rule.NameValid)
+	_ = validate.RegisterValidation("NameValid", user.NameValid)
 
-	newUser := model.User{}
+	newUser := model.UserRegister{}
 
 	_ = c.ShouldBindJSON(&newUser)
 

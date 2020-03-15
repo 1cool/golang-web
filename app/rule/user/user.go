@@ -1,4 +1,4 @@
-package rule
+package user
 
 import (
 	"gopkg.in/go-playground/validator.v9"
