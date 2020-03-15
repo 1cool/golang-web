@@ -13,6 +13,20 @@ func init() {
 	model.SetUp()
 }
 
+// @title github.com/1cool/golang-web Example API
+// @version 1.0
+// @description This is a sample server Petstore server.
+// @termsOfService https://github.com/1cool/golang-web
+
+// @contact.name 1cool
+// @contact.url https://github.com/1cool/golang-web
+// @contact.email 1coolluobo@gmail.com
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host localhost:8080
+// @BasePath /
 func main() {
 	r := route.InitRouter()
 
