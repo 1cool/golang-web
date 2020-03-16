@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/jinzhu/gorm"
 	"github.com/kelseyhightower/envconfig"
+	"golang-web/app/model/user"
 	"golang-web/config"
 )
 
@@ -28,5 +29,5 @@ func SetUp() {
 	fmt.Println(AppConfig.DbConnection, dbConn)
 	db, _ := gorm.Open(AppConfig.DbConnection, dbConn)
 	defer db.Close()
-	db.AutoMigrate(&User{})
+	db.AutoMigrate(&user.User{})
 }

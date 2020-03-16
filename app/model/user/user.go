@@ -1,4 +1,4 @@
-package model
+package user
 
 import (
 	"github.com/gin-gonic/gin"
@@ -18,21 +18,21 @@ type User struct {
 }
 
 // Register user example
-type UserRegister struct {
+type Register struct {
 	Email           string `json:"email" example:"google@gmail.com"`
 	Password        string `json:"password" validate:"eqfield=ConfirmPassword"`
 	ConfirmPassword string `json:"confirm_password"`
 	VerifyCode      string `json:"verify_code" validate:"len=6"`
 }
 
-func UserRegisterValidate(c *gin.Context) error {
+func RegisterValidate(c *gin.Context) error {
 	// 参数验证
 	validate := validator.New()
 
 	// 注册自定义验证
 	_ = validate.RegisterValidation("NameValid", user.NameValid)
 
-	newUser := UserRegister{}
+	newUser := Register{}
 
 	_ = c.ShouldBindJSON(&newUser)
 
