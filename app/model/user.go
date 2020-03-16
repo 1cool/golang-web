@@ -1,8 +1,11 @@
 package model
 
 import (
+	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
+	"golang-web/app/rule/user"
+	"gopkg.in/go-playground/validator.v9"
 )
 
 type User struct {
@@ -20,4 +23,20 @@ type UserRegister struct {
 	Password        string `json:"password" validate:"eqfield=ConfirmPassword"`
 	ConfirmPassword string `json:"confirm_password"`
 	VerifyCode      string `json:"verify_code" validate:"len=6"`
+}
+
+func UserRegisterValidate(c *gin.Context) error {
+	// 参数验证
+	validate := validator.New()
+
+	// 注册自定义验证
+	_ = validate.RegisterValidation("NameValid", user.NameValid)
+
+	newUser := UserRegister{}
+
+	_ = c.ShouldBindJSON(&newUser)
+
+	err := validate.Struct(&newUser)
+
+	return err
 }
