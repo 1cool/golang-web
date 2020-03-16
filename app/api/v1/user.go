@@ -2,7 +2,7 @@ package v1
 
 import (
 	"github.com/gin-gonic/gin"
-	"golang-web/app/model/user"
+	"golang-web/app/model"
 	"golang-web/app/util/response"
 	"net/http"
 )
@@ -42,12 +42,15 @@ func Show(c *gin.Context) {
 func Store(c *gin.Context) {
 	appG := response.Gin{C: c}
 
-	err := user.RegisterValidate(c)
+	newUser, err := model.RegisterValidate(c)
 
 	if err != nil {
 		appG.Response(http.StatusOK, true, err.Error(), make([]string, 0))
 		return
 	}
+
+	u := model.User{}
+	u.Register(newUser)
 
 	appG.Response(http.StatusOK, true, "暂无数据", make([]string, 0))
 }

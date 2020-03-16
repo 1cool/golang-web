@@ -3,11 +3,13 @@ package model
 import (
 	"bytes"
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	"github.com/kelseyhightower/envconfig"
-	"golang-web/app/model/user"
 	"golang-web/config"
 )
+
+var db *gorm.DB
 
 func SetUp() {
 	var AppConfig config.App
@@ -27,7 +29,7 @@ func SetUp() {
 	buffer.WriteString("&parseTime=True&loc=Local")
 	dbConn := buffer.String()
 	fmt.Println(AppConfig.DbConnection, dbConn)
-	db, _ := gorm.Open(AppConfig.DbConnection, dbConn)
-	defer db.Close()
-	db.AutoMigrate(&user.User{})
+	db, _ = gorm.Open(AppConfig.DbConnection, dbConn)
+	//defer db.Close()
+	db.AutoMigrate(&User{})
 }

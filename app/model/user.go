@@ -1,8 +1,7 @@
-package user
+package model
 
 import (
 	"github.com/gin-gonic/gin"
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	"golang-web/app/rule/user"
 	"gopkg.in/go-playground/validator.v9"
@@ -25,7 +24,8 @@ type Register struct {
 	VerifyCode      string `json:"verify_code" validate:"len=6"`
 }
 
-func RegisterValidate(c *gin.Context) error {
+// 注册用户时的参数验证器
+func RegisterValidate(c *gin.Context) (Register, error) {
 	// 参数验证
 	validate := validator.New()
 
@@ -38,5 +38,13 @@ func RegisterValidate(c *gin.Context) error {
 
 	err := validate.Struct(&newUser)
 
-	return err
+	return newUser, err
+}
+
+func (u *User) Register(ru Register) {
+	u.Name = "default name"
+	u.Email = ru.Email
+	u.Password = ru.Password
+	u.Avatar = "default avatar"
+	db.Create(&u)
 }
