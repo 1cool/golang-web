@@ -42,7 +42,7 @@ func InitRouter() *gin.Engine {
 		// 嵌套路由组
 		apiV1.GET("/users", v1.Index)
 		apiV1.GET("/users/:id", v1.Show)
-		apiV1.POST("/users", v1.Store)
+		apiV1.POST("/users", v1.Register)
 		apiV1.DELETE("/users/:id", v1.Destroy)
 	}
 

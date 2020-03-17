@@ -1,25 +1,18 @@
-package model
+package user
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
+	"golang-web/app/model"
 	"golang-web/app/rule/user"
+	"golang.org/x/crypto/bcrypt"
 	"gopkg.in/go-playground/validator.v9"
 )
-
-type User struct {
-	gorm.Model
-	Email    string `gorm:"type:varchar(100);unique_index;not null" json:"email" validate:"required,email"`
-	Password string `gorm:"type:varchar(36);not null" json:"password" validate:"required,min=8"`
-	Name     string `gorm:"size:20;not null" json:"name"`
-	Avatar   string `gorm:"size:255;not null" json:"avatar"`
-	Point    int64  `gorm:"size:255;default:0;not null" json:"point"`
-}
 
 // Register user example
 type Register struct {
 	Email           string `json:"email" example:"google@gmail.com"`
-	Password        string `json:"password" validate:"eqfield=ConfirmPassword"`
+	Password        string `json:"password" validate:"min=8,eqfield=ConfirmPassword"`
 	ConfirmPassword string `json:"confirm_password"`
 	VerifyCode      string `json:"verify_code" validate:"len=6"`
 }
@@ -41,10 +34,14 @@ func RegisterValidate(c *gin.Context) (Register, error) {
 	return newUser, err
 }
 
+// 注册用户
 func (u *User) Register(ru Register) {
+	hash, _ := bcrypt.GenerateFromPassword([]byte(ru.Password), bcrypt.DefaultCost)
+	encodePW := string(hash)
+	fmt.Println(len(encodePW))
 	u.Name = "default name"
 	u.Email = ru.Email
-	u.Password = ru.Password
+	u.Password = encodePW
 	u.Avatar = "default avatar"
-	db.Create(&u)
+	model.Db.Create(&u)
 }
