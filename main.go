@@ -2,6 +2,7 @@ package main
 
 import (
 	"golang-web/app/model"
+	"golang-web/app/model/user"
 	"golang-web/config"
 	"golang-web/route"
 	"golang-web/route/middleware/exception"
@@ -11,6 +12,7 @@ func init() {
 	config.Setup()
 	exception.SetUp()
 	model.SetUp()
+	model.Db.AutoMigrate(&user.User{})
 }
 
 // @title github.com/1cool/golang-web Example API

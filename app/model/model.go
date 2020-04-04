@@ -6,7 +6,6 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	"github.com/kelseyhightower/envconfig"
-	"golang-web/app/model/user"
 	"golang-web/config"
 )
 
@@ -32,5 +31,4 @@ func SetUp() {
 	fmt.Println(AppConfig.DbConnection, dbConn)
 	Db, _ = gorm.Open(AppConfig.DbConnection, dbConn)
 	//defer db.Close()
-	Db.AutoMigrate(&user.User{})
 }

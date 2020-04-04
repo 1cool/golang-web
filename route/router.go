@@ -40,7 +40,7 @@ func InitRouter() *gin.Engine {
 		//authorized.POST("/read", readEndpoint)
 
 		// 嵌套路由组
-		apiV1.GET("/users", v1.Index)
+		apiV1.POST("/login", v1.Login)
 		apiV1.GET("/users/:id", v1.Show)
 		apiV1.POST("/users", v1.Register)
 		apiV1.DELETE("/users/:id", v1.Destroy)
