@@ -8,17 +8,32 @@ import (
 )
 
 // @Tags 用户相关
-// @Summary 用户列表
-// @Produce  json
+// @Summary 用户登录
+// @Produce json
+// @Accept  json
+// @Param user body user.LoginParam true "用户登录"
 // @Success 200 {object} response.Response
 // @Failure 500 {object} response.Response
-// @Router /api/v1/users [get]
+// @Router /api/v1/users/auth [POST]
 func Login(c *gin.Context) {
 	appG := response.Gin{C: c}
 
-	newUser, err := user.RegisterValidate(c)
+	lu, err := user.LoginValidate(c)
 
-	appG.Response(http.StatusOK, true, "暂无数据", make([]string, 0))
+	if err != nil {
+		appG.Response(http.StatusOK, true, err.Error(), make([]string, 0))
+		return
+	}
+
+	var u user.User
+	u, err = user.Login(lu)
+
+	if err != nil {
+		appG.Response(http.StatusOK, true, "账号或者密码错误", make([]string, 0))
+		return
+	}
+
+	appG.Response(http.StatusOK, true, "", u)
 }
 
 // @Tags 用户相关
@@ -38,7 +53,7 @@ func Show(c *gin.Context) {
 // @Summary 用户注册
 // @Produce  json
 // @Accept  json
-// @Param user body model.UserRegister true "用户注册"
+// @Param user body user.Register true "用户注册"
 // @Success 200 {object} response.Response
 // @Failure 500 {object} response.Response
 // @Router /api/v1/users [post]

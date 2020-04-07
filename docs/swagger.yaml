@@ -1,6 +1,25 @@
 basePath: /
 definitions:
-  model.UserRegister:
+  response.Response:
+    properties:
+      data:
+        type: object
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  user.LoginParam:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  user.Register:
     properties:
       confirm_password:
         type: string
@@ -11,15 +30,6 @@ definitions:
         type: string
       verify_code:
         type: string
-    type: object
-  response.Response:
-    properties:
-      data:
-        type: object
-      message:
-        type: string
-      success:
-        type: boolean
     type: object
 host: localhost:8080
 info:
@@ -36,21 +46,6 @@ info:
   version: "1.0"
 paths:
   /api/v1/users:
-    get:
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/response.Response'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/response.Response'
-      summary: 用户列表
-      tags:
-      - 用户相关
     post:
       consumes:
       - application/json
@@ -60,7 +55,7 @@ paths:
         name: user
         required: true
         schema:
-          $ref: '#/definitions/model.UserRegister'
+          $ref: '#/definitions/user.Register'
       produces:
       - application/json
       responses:
@@ -95,6 +90,31 @@ paths:
           schema:
             $ref: '#/definitions/response.Response'
       summary: 用户详情
+      tags:
+      - 用户相关
+  /api/v1/users/auth:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 用户登录
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/user.LoginParam'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 用户登录
       tags:
       - 用户相关
 swagger: "2.0"
